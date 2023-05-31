@@ -1,14 +1,21 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-generator client {
-    provider = "prisma-client-js"
-    previewFeatures = ["jsonProtocol"]
-}
+/** This is the Prisma schema file,
+ *  learn more about it in the docs: https://pris.ly/d/prisma-schema
+ *
+ *  The following code comes from https://planetscale.com/docs/prisma/prisma-quickstart
+ *
+ *  Useful commands:
+ *      npx prisma studio: opens the prisma schema in a nice UI at localhost:5555
+ *      npx prisma db push: updates the database to what the prisma schema reflects
+ */
 
 datasource db {
-    provider = "sqlite"
-    url      = env("DATABASE_URL")
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+  relationMode = "prisma"
+}
+
+generator client {
+  provider = "prisma-client-js"
 }
 
 model Example {
