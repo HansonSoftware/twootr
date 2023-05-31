@@ -2,12 +2,14 @@ import { type NextPage } from "next";
 import Head from "next/head";
 import Link from "next/link";
 import { api } from "~/utils/api";
-import { SignIn, UserButton } from "@clerk/nextjs";
+import { SignIn, UserButton, useUser } from "@clerk/nextjs";
 
 import Navbar from "~/components/Navbar";
 
 const Home: NextPage = () => {
-  const hello = api.example.hello.useQuery({ text: "from tRPC" });
+  /* getAll is a public procedure to get all posts in the db.
+     Located in ~server/api/routers/posts.ts */
+  const { data } = api.posts.getAll.useQuery();
 
   return (
     <>
@@ -23,6 +25,11 @@ const Home: NextPage = () => {
       >
         <div className="min-h-screen max-w-4xl md:border-l-2 md:border-r-2 md:border-info">
           <Navbar />
+          <div className="pt-8">
+            {data?.map((post) => (
+              <div key={post.id}>{post.content}</div>
+            ))}
+          </div>
         </div>
       </main>
     </>
