@@ -1,12 +1,11 @@
-/** This is the Prisma schema file,
- *  learn more about it in the docs: https://pris.ly/d/prisma-schema
- *
- *  The following code comes from https://planetscale.com/docs/prisma/prisma-quickstart
- *
- *  Useful commands:
- *      npx prisma studio: opens the prisma schema in a nice UI at localhost:5555
- *      npx prisma db push: updates the database to what the prisma schema reflects
- */
+//  This is the Prisma schema file,
+//  More about it in their docs: https://pris.ly/d/prisma-schema
+//
+//  The following code comes from https://planetscale.com/docs/prisma/prisma-quickstart
+//
+//  Useful commands:
+//      npx prisma studio: opens the prisma schema in a nice UI at localhost:5555
+//      npx prisma db push: updates the database to what the prisma schema reflects
 
 datasource db {
   provider = "mysql"
