@@ -142,7 +142,9 @@ const PostView = (props: PostWithUser) => {
             </Link>
           </div>
           <Link href={`/post/${post.id}`}>
-            <div className="chat-bubble chat-bubble-accent">{post.content}</div>
+            <div className="chat-bubble chat-bubble-primary">
+              {post.content}
+            </div>
           </Link>
           <div className="chat-footer">
             <Link
