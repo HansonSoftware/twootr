@@ -1,8 +1,8 @@
-export const LoadingSpinner = (props: { size?: number }) => {
+export const LoadingSpinner = (props: { big?: boolean }) => {
   return (
     <div
       className={`inline-block animate-spin rounded-full border-4 border-solid border-info border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite] ${
-        props.size ? `w-${props.size} h-${props.size}` : "h-12 w-12"
+        props.big ? "h-12 w-12" : "h-8 w-8"
       }`}
       role="status"
     >
@@ -15,11 +15,8 @@ export const LoadingSpinner = (props: { size?: number }) => {
 
 export const LoadingPage = () => {
   return (
-    <div
-      data-theme="lofi"
-      className="grid h-screen w-full place-items-center bg-base-100"
-    >
-      <LoadingSpinner size={16} />
+    <div className="grid w-full place-items-center bg-base-100 pt-36">
+      <LoadingSpinner big={true} />
     </div>
   );
 };
