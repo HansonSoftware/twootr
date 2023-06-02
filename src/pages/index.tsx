@@ -6,6 +6,7 @@ import { useUser } from "@clerk/nextjs";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { LoadingPage, LoadingSpinner } from "~/components/LoadingSpinner";
+import { useState } from "react";
 dayjs.extend(relativeTime);
 
 const Home: NextPage = () => {
@@ -42,18 +43,38 @@ export default Home;
 const CreatePost = () => {
   const { user } = useUser();
 
+  const [input, setInput] = useState("");
+
+  const ctx = api.useContext();
+
+  const { mutate, isLoading: isPosting } = api.posts.create.useMutation({
+    onSuccess: () => {
+      setInput("");
+      void ctx.posts.getAll.invalidate();
+    },
+  });
+
   if (!user) {
     return null;
   }
 
   return (
-    <div className="flex">
+    <div className="flex items-center gap-2 p-2">
       <img src={user.profileImageUrl} className="h-14 w-14 rounded-full" />
       <input
         type="text"
-        placeholder="Type something awesome..."
+        placeholder="What is happening?!"
         className="input w-full cursor-text outline-none focus:outline-none"
+        value={input}
+        onChange={(e) => setInput(e.target.value)}
       />
+      <button
+        className="btn-info btn-sm btn"
+        onClick={() => mutate({ content: input })}
+        disabled={isPosting || input === ""}
+      >
+        Post
+      </button>
     </div>
   );
 };
