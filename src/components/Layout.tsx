@@ -10,6 +10,13 @@ export const Layout = ({ children }: PropsWithChildren) => {
       >
         <div className="min-h-screen w-screen max-w-2xl md:border-x-2 md:border-info 2xl:max-w-3xl">
           {children}
+          <a
+            className="btn-primary btn rounded-none uppercase"
+            href="https://www.haydenhanson.dev/projects/twootr"
+            target="_blank"
+          >
+            Docs
+          </a>
         </div>
       </main>
     </>
