@@ -1,14 +1,11 @@
-import { RouterOutputs, api } from "~/utils/api";
+import { api } from "~/utils/api";
 import { Header } from "~/components/Header";
 import { useUser } from "@clerk/nextjs";
-import dayjs from "dayjs";
-import relativeTime from "dayjs/plugin/relativeTime";
 import { LoadingPage, LoadingSpinner } from "~/components/LoadingSpinner";
 import { useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
-import Link from "next/link";
 import { NextPage } from "next";
-dayjs.extend(relativeTime);
+import { PostView } from "~/components/PostView";
 
 const Home: NextPage = () => {
   const { isLoaded: userLoaded } = useUser();
@@ -60,7 +57,7 @@ const CreatePost = () => {
   if (!user) return null;
 
   return (
-    <div className="flex items-center gap-1 p-2 pt-24">
+    <div className="flex items-center gap-1 px-4 pt-24">
       <img src={user.profileImageUrl} className="h-12 w-12 rounded-full" />
       <input
         type="text"
@@ -93,72 +90,6 @@ const CreatePost = () => {
         </div>
       )}
     </div>
-  );
-};
-
-type PostWithUser = RouterOutputs["posts"]["getAll"][number];
-
-const PostView = (props: PostWithUser) => {
-  const { post, author } = props;
-  const userId = useUser().user?.id;
-
-  return (
-    <article id={post.id} className="w-full p-2">
-      {author.id !== userId && (
-        <div className="chat chat-start">
-          <div className="chat-image avatar">
-            <Link href={`/@${author.username}`} className="w-10 rounded-full">
-              <img
-                src={author?.profileImageUrl}
-                alt={`@${author.username}'s profile picture`}
-                className="rounded-full"
-              />
-            </Link>
-          </div>
-          <Link href={`/post/${post.id}`}>
-            <div className="chat-bubble chat-bubble-info">{post.content}</div>
-          </Link>
-          <div className="chat-footer">
-            <Link
-              href={`/@${author.username}`}
-            >{`@${author?.username} · `}</Link>
-            <Link href={`/post/${post.id}`}>
-              <time className="text-xs opacity-50">
-                {dayjs(post.createdAt).fromNow()}
-              </time>
-            </Link>
-          </div>
-        </div>
-      )}
-      {author.id === userId && (
-        <div className="chat chat-end">
-          <div className="chat-image avatar">
-            <Link href={`/@${author.username}`} className="w-10 rounded-full">
-              <img
-                src={author?.profileImageUrl}
-                alt={`@${author.username}'s profile picture`}
-                className="rounded-full"
-              />
-            </Link>
-          </div>
-          <Link href={`/post/${post.id}`}>
-            <div className="chat-bubble chat-bubble-primary">
-              {post.content}
-            </div>
-          </Link>
-          <div className="chat-footer">
-            <Link
-              href={`/@${author.username}`}
-            >{`@${author?.username} · `}</Link>
-            <Link href={`/post/${post.id}`}>
-              <time className="text-xs opacity-50">
-                {dayjs(post.createdAt).fromNow()}
-              </time>
-            </Link>
-          </div>
-        </div>
-      )}
-    </article>
   );
 };
 

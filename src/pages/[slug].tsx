@@ -5,6 +5,31 @@ import { createServerSideHelpers } from "@trpc/react-query/server";
 import { appRouter } from "~/server/api/root";
 import { prisma } from "~/server/db";
 import superjson from "superjson";
+import { Header } from "~/components/Header";
+import { LoadingPage } from "~/components/LoadingSpinner";
+import { PostView } from "~/components/PostView";
+
+const ProfileFeed = (props: { userId: string }) => {
+  const { data, isLoading } = api.posts.getPostsByUserId.useQuery({
+    userId: props.userId,
+  });
+
+  if (isLoading) {
+    return <LoadingPage />;
+  }
+
+  if (!data || data.length === 0) {
+    return <div>User has not posted!</div>;
+  }
+
+  return (
+    <div className="flex flex-col gap-4">
+      {data.map((fullPost) => (
+        <PostView {...fullPost} key={fullPost.post.id} />
+      ))}
+    </div>
+  );
+};
 
 const ProfilePage: NextPage<{ username: string }> = ({ username }) => {
   const { data } = api.profile.getUserByUsername.useQuery({
@@ -22,15 +47,19 @@ const ProfilePage: NextPage<{ username: string }> = ({ username }) => {
         <meta name="description" content="" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-
-      <div className="relative h-48 w-full border-b border-neutral bg-neutral">
+      <Header />
+      <div className="pt-20"></div>
+      <div className="relative h-28 w-full border-t-2 border-info">
         <img
           src={data.profileImageUrl}
           alt="Profile Picture"
-          className="absolute bottom-0 left-0 -mb-12 ml-4 h-16 w-16 rounded-full"
+          className="absolute bottom-0 left-0 -mb-[48px] ml-4 w-28 rounded-full border-4 border-neutral-content"
         />
-        <div>{`@${data.username}`}</div>
       </div>
+      {/* invisible padding */}
+      <div className="h-[48px]"></div>
+      <div className="border-b-2 border-info p-4 text-xl font-bold">{`@${data.username}'s Profile`}</div>
+      <ProfileFeed userId={data.id} />
     </>
   );
 };
