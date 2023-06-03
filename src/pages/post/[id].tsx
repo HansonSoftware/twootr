@@ -4,7 +4,7 @@ import { api } from "~/utils/api";
 import { Header } from "~/components/Header";
 import { LoadingPage } from "~/components/LoadingSpinner";
 import { PostView } from "~/components/PostView";
-import { generateSSGHelper } from "~/server/helpers/ssgHelper";
+import { generateSSGHelper } from "~/server/helpers/SSGHelper";
 
 const SinglePostPage: NextPage<{ id: string }> = (props: { id: string }) => {
   const { data, isLoading } = api.posts.getPostById.useQuery({
